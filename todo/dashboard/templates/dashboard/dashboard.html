@@ -1,0 +1,192 @@
+
+{% extends "todo/basic.html" %}
+{% block body %}
+<!-- Create Task Button -->
+<div class="flex justify-end mb-6">
+  <button
+    id="openTaskModal"
+    class="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400 transition"
+  >
+    ➕ Create Task
+  </button>
+</div>
+
+<div class="mx-auto mt-20 max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+  <!-- ✅ COMPLETED TASKS -->
+  <div class="rounded-3xl bg-green-900/20 ring-1 ring-green-400/20 p-6">
+    <h2 class="text-xl font-semibold text-green-400 mb-4 flex items-center gap-2">
+      ✅ Completed Tasks
+    </h2>
+
+    <!-- Scrollable area -->
+    <div class="max-h-80 overflow-y-auto space-y-3 pr-2">
+      {% for task in completed_tasks %}
+        <div class="flex items-center gap-3 bg-green-800/20 p-3 rounded-lg">
+          <!-- Number -->
+          <span class="text-green-400 font-semibold">
+            {{ forloop.counter }}.
+          </span>
+
+          <!-- Task name -->
+          <span class="flex-1 text-white">
+            {{ task.title }}
+          </span>
+
+          <!-- Completed icon -->
+          <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+      {% empty %}
+        <p class="text-gray-400 text-sm">No completed tasks yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ⏳ PENDING TASKS -->
+  <div class="rounded-3xl bg-yellow-900/20 ring-1 ring-yellow-400/20 p-6">
+    <h2 class="text-xl font-semibold text-yellow-400 mb-4 flex items-center gap-2">
+      ⏳ Pending Tasks
+    </h2>
+
+    <!-- Scrollable area -->
+    <div class="max-h-80 overflow-y-auto space-y-3 pr-2">
+      {% for task in pending_tasks %}
+        <div class="flex items-center gap-3 bg-yellow-800/20 p-3 rounded-lg">
+          <!-- Number -->
+          <span class="text-yellow-400 font-semibold">
+            {{ forloop.counter }}.
+          </span>
+
+          <!-- Task name -->
+          <span class="flex-1 text-white">
+            {{ task.title }}
+          </span>
+
+          <!-- Mark complete button -->
+          <form method="POST" action="{% url 'todo:complete_task' task.id %}">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="rounded-full bg-green-500/20 p-2 hover:bg-green-500/40 transition"
+              title="Mark as completed"
+            >
+              <!-- Check icon -->
+              <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      {% empty %}
+        <p class="text-gray-400 text-sm">No pending tasks 🎉</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Backdrop -->
+<div
+  id="taskModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center"
+>
+  <!-- Blur background -->
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+  <!-- Modal Box -->
+  <div class="relative z-10 w-full max-w-md rounded-2xl bg-gray-900 p-6 ring-1 ring-white/10">
+    <h2 class="text-lg font-semibold text-white mb-4">Create New Task</h2>
+
+    <form method="POST" action="{% url 'task:task' %}">
+      {% csrf_token %}
+
+      <!-- Title -->
+      <div class="mb-3">
+        <label class="text-sm text-gray-300">Task Title</label>
+        <input
+          type="text"
+          name="title"
+          required
+          class="mt-1 w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label class="text-sm text-gray-300">Task Description</label>
+        <textarea
+          name="description"
+          rows="3"
+          class="mt-1 w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        ></textarea>
+      </div>
+
+      <!-- Task Type -->
+      <div class="mb-3">
+        <label class="text-sm text-gray-300">Task Type</label>
+        <select
+          name="task_type"
+          class="mt-1 w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2 text-white"
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+
+      <!-- Date -->
+      <div class="mb-4">
+        <label class="text-sm text-gray-300">Select Date</label>
+        <input
+          type="date"
+          name="due_date"
+          class="mt-1 w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2 text-white"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3">
+        <button
+          type="button"
+          id="closeTaskModal"
+          class="rounded-md px-4 py-2 text-sm text-gray-300 hover:text-white"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+  const modal = document.getElementById("taskModal");
+  const openBtn = document.getElementById("openTaskModal");
+  const closeBtn = document.getElementById("closeTaskModal");
+
+  openBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("overflow-hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("overflow-hidden");
+  });
+</script>
+
+
+{% endblock %}

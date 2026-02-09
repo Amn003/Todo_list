@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+
+
+<title> {% block title %}{% endblock %}</title>
+<body class="min-h-screen bg-fixed bg-center bg-cover bg-no-repeat"
+      style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1120&auto=format&fit=crop');">
+
+<div class="min-h-screen flex flex-col">  
+<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> 
+
+<nav class="sticky top-0 bg-gray-800/20 backdrop-blur-md z-50">
+  <div class="flex flex-col mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between">
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <!-- Mobile menu button-->
+        <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+          <span class="absolute -inset-0.5"></span>
+          <span class="sr-only">Open main menu</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex shrink-0 items-center">
+          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+        </div>
+        <div class="hidden sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+            <a href="#" aria-current="page" class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Dashboard</a>
+            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
+            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
+            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
+          </div>
+        </div>
+      </div>
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
+          <span class="absolute -inset-1.5"></span>
+          <span class="sr-only">View notifications</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <!-- Profile dropdown -->
+        <el-dropdown class="relative ml-3">
+          <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+            <span class="absolute -inset-1.5"></span>
+            <span class="sr-only">Open user menu</span>
+            <img src="https://tse3.mm.bing.net/th/id/OIP.A4KAzIwszHiEGSSxEUftlwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+          </button>
+
+          <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
+            {% if user.is_authenticated %}
+                       <a href="#" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Welcome {{ user.username }}</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Settings</a>
+            <a href="{% url "user:logout" %}" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Sign out</a>
+                
+                {% else %}
+                <a href="{% url "user:register" %}" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Register</a>
+
+                <a href="{% url "user:login" %}" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Sign In</a>
+
+            {% endif %}
+ 
+          </el-menu>
+        </el-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+    <div class="space-y-1 px-2 pt-2 pb-3">
+      <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+      <a href="#" aria-current="page" class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dashboard</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
+    </div>
+  </el-disclosure>
+</nav>
+
+
+{# put this near the end of <body> in your Django template #}
+{% if messages %}
+  {% for message in messages %}
+    <div id="alert-{{ forloop.counter }}"
+         data-alert
+         class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-left
+                p-4 mb-3 w-[90%] max-w-md text-sm rounded-lg shadow-xl
+                transition-opacity duration-500 opacity-100 z-[9999]
+                {% if message.tags == 'success' %} bg-green-600 text-white {% elif message.tags == 'error' %} bg-white text-black border border-gray-300 {% else %} bg-gray-800 text-white {% endif %} float-top">
+      <div class="mr-3">
+        {% if message.tags == 'success' %}
+          <!-- success icon (optional) -->
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        {% elif message.tags == 'error' %}
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        {% endif %}
+      </div>
+
+      <div class="flex-1">{{ message }}</div>
+
+      <button type="button" data-close class="ml-4 text-xl leading-none px-2 hover:opacity-80" aria-label="Close">✕</button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<script>
+/* Robust alert handling:
+   - finds all elements with [data-alert]
+   - auto hides after 4s
+   - close button (data-close) hides immediately
+   - fade-out (CSS opacity) then remove from DOM
+*/
+document.addEventListener("DOMContentLoaded", () => {
+  const FADE_MS = 500;      // match CSS transition-duration
+  const AUTO_HIDE_MS = 4000;
+
+  function fadeAndRemove(el) {
+    if (!el || el._removing) return;
+    el._removing = true;
+    el.style.opacity = "0";
+    setTimeout(() => {
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }, FADE_MS + 10);
+  }
+
+  const alerts = Array.from(document.querySelectorAll("[data-alert]"));
+  if (!alerts.length) {
+    // no alerts found — helpful for debugging
+    // console.log("No alerts on page");
+    return;
+  }
+
+  alerts.forEach((el, i) => {
+    // ensure unique id (should already be unique via forloop.counter)
+    if (!el.id) el.id = "alert-" + (i+1);
+
+    // attach close button handler
+    const btn = el.querySelector("[data-close]");
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        fadeAndRemove(el);
+      });
+    }
+
+    // auto hide
+    setTimeout(() => fadeAndRemove(el), AUTO_HIDE_MS);
+  });
+});
+</script>
+
+<!-- body of the project -->
+
+  <main class="flex-1 overflow-y-auto p-10">
+    {% block body %}
+    {% endblock %}
+  </main>
+
+
+
+
+<footer class="w-full bg-gray-800/20 backdrop-blur-md">
+  <div class="container mx-auto text-center p-5">
+
+   <div class="mb-4">
+     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
+     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
+     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Twitter</a>
+     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Instagram</a>
+   </div>
+   <p class="text-white">© 2025 ToDo. All rights reserved.</p>
+ </div>
+</footer>
+
+</div>
+  </body>
+</html>
+
+
+
