@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-class task(models.Model):
+class Task(models.Model):
     TASK_TYPE =[
         ("once","Once"),
         ("daily","Daily"),
@@ -24,7 +24,7 @@ class task(models.Model):
 
 
 class TaskComp(models.Model):
-    task=models.ForeignKey(task,on_delete=models.CASCADE)
+    task=models.ForeignKey(Task,on_delete=models.CASCADE)
     complete_on=models.DateField()
 
     class Meta:

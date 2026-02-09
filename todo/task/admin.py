@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import task,TaskComp
+from .models import Task,TaskComp
 # Register your models here.
 
-admin.site.register(task)
+admin.site.register(Task)
 admin.site.register(TaskComp)
