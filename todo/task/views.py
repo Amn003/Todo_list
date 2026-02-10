@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Task, TaskComp
-from .chek import exist_chek
+from .chek import is_task_completed as exist_chek
 from datetime import datetime
 # Create your views here.
 
@@ -49,9 +49,9 @@ def complete_task(request,task_id):
     
     else:
         messages.error(request,"This task is already completed")
+        task1=TaskComp.objects.get(task=task)
+        print(f" the task is {task1}")
         return redirect("dashboard:dashboard")
-    task1=TaskComp.objects.all()
-    print(task1)
     
     messages.success(request, f"inside the complete_task")
     return redirect("dashboard:dashboard")

@@ -1,6 +1,6 @@
 from .models import TaskComp,Task
-
-
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 class chek_creat:
 
     def Chek_task(self,task_id):
@@ -8,49 +8,58 @@ class chek_creat:
     def __init__(self):
         print("inside the cheking class")
 
-def chek_date(task_id):
-    task=Task.objects.get(id=task_id)
-    task_chek=TaskComp.objects.filter(task=task).first()
+from datetime import date, timedelta
 
-    if task_chek is not None:
-        return task_chek.complete_on
-        
-    return None
+def is_task_completed(task_id, task_type):
+    """
+    Checks whether a task is completed for the current period
+    based on its task_type.
+    """
 
-def exist_chek(task_id,task_type):
-    if task_type=="Once":
-        print("inside the once chek")
-        date=chek_date(task_id=task_id)
+    today = date.today()
 
-        if date is None  :
-            return False
-        
-        else:
-            return True
-        # chek the task is exist or not
-        # if exist then return true else false
-    elif task_type=="Daily":
-        print("inside the daily chek")
+    task = Task.objects.get(id=task_id)
 
-        date=chek_date(task_id=task_id)
-        print(f"the date is {date}")
+    task_comp = (
+        TaskComp.objects
+        .filter(task=task)
+        .order_by('-complete_on')
+        .first()
+    )
 
-        if date is not None:
-            return True
-        
-        else:
-            return False
-        # chek the task is exist or not
-        # if exist then return true else false
-    elif task_type=="Weekly":
-        print("inside the weekly chek")
-        # chek the task is exist or not
-        # if exist then return true else false
-    elif task_type=="Monthly":
-        print("inside the monthly chek")
-        # chek the task is exist or not
-        # if exist then return true else false
-    elif task_type=="Yearly":
-        print("inside the yearly chek")
-        # chek the task is exist or not
-        # if exist then return true else false
+    # If task was never completed
+    if task_comp is None:
+        return False
+
+    completed_date = task_comp.complete_on
+
+    # ONCE → completed even once = done forever
+    if task_type == "Once":
+        return True
+
+    # DAILY → completed today
+    if task_type == "Daily":
+        return completed_date == today
+
+    # WEEKLY → completed in current week
+    if task_type == "Weekly":
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        return start_of_week <= completed_date <= end_of_week
+
+    # MONTHLY → completed in current month
+    if task_type == "Monthly":
+        return (
+            completed_date.year == today.year and
+            completed_date.month == today.month
+        )
+
+    # YEARLY → completed on same day & month of current year
+    if task_type == "Yearly":
+        return (
+            completed_date.day == today.day and
+            completed_date.month == today.month and
+            completed_date.year == today.year
+        )
+
+    return False
