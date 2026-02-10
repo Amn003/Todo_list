@@ -20,4 +20,5 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html',{"complete_task":complete_task,"pending_task":pending_task})
 
 
-
+def rankin(request):
+    return render(request,"dashboard/ranking.html") 

@@ -2,13 +2,63 @@ from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout,login
-from .models import profile
+from .models import profile,commnets
 import uuid
+
 # Create your views here.
 def loginc(request):
     if request.user.is_authenticated:
         return redirect("dashboard:dashboard")
     return redirect("user:login")
+
+
+def contact(request):
+    # Ensure session exists
+
+
+    if request.method == "POST":
+        
+        try:
+            hostel = request.POST.get("hostel")
+            mess_select = request.POST.get("mess_choice")
+            section_select = request.POST.get("section_choice")
+            year_select = request.POST.get("section_choice")
+
+            name = request.POST.get("name")
+            email = request.POST.get("email")
+            phone = request.POST.get("phone")
+            message = request.POST.get("msg")
+            subject = request.POST.get("sub")
+            commnets.objects.update_or_create(
+                email_user=email,
+                defaults={
+                    "name_user": name,
+                    "phone_user": phone,
+                    "dec_user": message,
+                    "sub_user": subject,
+                }
+            )
+
+
+        except:
+            messages.error(request, "Please fill the complete form.")
+            return redirect('contact')
+
+
+
+
+
+        # Save or update
+
+        messages.success(request, "Your form successfully reached us we will contact you soon!")
+        return redirect("home")
+        
+
+    
+
+    return render(request, "user/contact.html")
+# Create your views here.
+
 
 def login_user(request):
     if request.user.is_authenticated:

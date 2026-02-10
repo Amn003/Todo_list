@@ -11,4 +11,4 @@ def home(request):
     if request.user.is_authenticated:
         return redirect("dashboard:dashboard")
     
-    return render(request,"todo/home.html")
+    return render(request,"user/home.html")

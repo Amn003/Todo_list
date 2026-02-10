@@ -1,0 +1,92 @@
+{% extends "todo/basic.html" %}
+
+{% block titel %}Ranking{% endblock titel %}
+
+{% block body %}
+<!-- Overlay Content -->
+<div class="min-h-[80vh] flex items-center justify-center">
+  
+  <div class="text-center bg-sky-300/20 backdrop-blur-md rounded-2xl px-8 py-10 shadow-lg">
+
+    <h1 class="text-3xl md:text-4xl font-bold text-sky-900 mb-4">
+      Ranking System Coming Soon 🚀
+    </h1>
+
+    <p class="text-gray-700 text-lg mb-8">
+      Rankings will be based on
+      <span class="font-semibold">Global</span> and
+      <span class="font-semibold">School</span> performance
+    </p>
+
+    <!-- Counter -->
+    <div class="flex justify-center gap-5">
+
+      <div class="bg-white/80 rounded-xl p-4 w-20 shadow">
+        <p id="days" class="text-2xl font-bold text-sky-800">00</p>
+        <p class="text-sm text-gray-600">Days</p>
+      </div>
+
+      <div class="bg-white/80 rounded-xl p-4 w-20 shadow">
+        <p id="hours" class="text-2xl font-bold text-sky-800">00</p>
+        <p class="text-sm text-gray-600">Hours</p>
+      </div>
+
+      <div class="bg-white/80 rounded-xl p-4 w-20 shadow">
+        <p id="minutes" class="text-2xl font-bold text-sky-800">00</p>
+        <p class="text-sm text-gray-600">Minutes</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // 🔹 Set launch date (CHANGE THIS)
+  const targetDate = new Date("2026-03-01T00:00:00").getTime();
+
+  const elements = {
+    days: document.getElementById("days"),
+    hours: document.getElementById("hours"),
+    minutes: document.getElementById("minutes"),
+  };
+
+  function smoothUpdate(element, newValue) {
+    const current = parseInt(element.textContent) || 0;
+    const diff = newValue - current;
+    const duration = 300; // ms
+    const start = performance.now();
+
+    function animate(time) {
+      const progress = Math.min((time - start) / duration, 1);
+      element.textContent = Math.floor(current + diff * progress)
+        .toString()
+        .padStart(2, "0");
+
+      if (progress < 1) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) return;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+
+    smoothUpdate(elements.days, days);
+    smoothUpdate(elements.hours, hours);
+    smoothUpdate(elements.minutes, minutes);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 60000); // update every minute
+</script>
+
+{% endblock %}

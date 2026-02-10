@@ -1,0 +1,38 @@
+{% extends "todo/basic.html" %}
+{% block titel %} Home {% endblock %}
+
+{% block body %}
+<!-- Home Floating Section -->
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+
+  <div class="bg-sky-500/10 backdrop-blur-md
+              rounded-2xl shadow-xl
+              px-10 py-12
+              text-center
+              max-w-xl w-full">
+
+    <!-- Heading -->
+    <h1 class="text-4xl font-bold text-white mb-4">
+      Want to Make Your Productivity Soar? 🚀
+    </h1>
+
+    <!-- Subtext -->
+    <p class="text-white/80 text-lg mb-8">
+      Experience a smarter way to track performance and rankings
+    </p>
+
+    <!-- Button -->
+    <a href="{% url "user:register" %}"
+       class="inline-block bg-sky-500 hover:bg-sky-600
+              text-white font-semibold
+              px-8 py-3 rounded-lg
+              transition duration-300">
+      Get Started
+    </a>
+
+  </div>
+
+</div>
+
+{% endblock body %}
+

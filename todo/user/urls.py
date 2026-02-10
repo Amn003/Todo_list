@@ -5,8 +5,9 @@ app_name="user"
 
 urlpatterns = [
 
-    path('',views.loginc, name="loginc" ),
+    # path('',views.loginc, name="loginc" ),
     path('register/',views.register, name="register" ),
     path('login/',views.login_user, name="login" ),
     path('logout/',views.logout_user, name="logout" ),
+    path('contact/',views.contact, name="contact" ),
 ]

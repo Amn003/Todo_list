@@ -12,3 +12,15 @@ class profile(models.Model):
 
 
 
+class commnets(models.Model) :
+    name_user=models.CharField(max_length=20)
+    phone_user=models.IntegerField(unique=True)
+
+    email_user=models.CharField( max_length=20)
+    sub_user=models.CharField( max_length=100)
+
+    dec_user=models.TextField()
+    date_user=models.DateField( auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name_user} ({self.email_user})"

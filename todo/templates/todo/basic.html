@@ -37,11 +37,25 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-            <a href="#" aria-current="page" class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Dashboard</a>
-            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
-            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
-            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
-          </div>
+             {% if user.is_authenticated %}
+             {% url 'dashboard:dashboard' as dashboard_url%}
+            <a href="{{ dashboard_url }}" {% if dashboard_url == request.path %}aria-current="page" class="rounded-md bg-sky-950/70 px-3 py-2 text-sm font-medium text-white" {% else %} class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" {% endif %} >Dashboard</a>
+            {% else %}
+            <a href="/" {% if "/" == request.path %}aria-current="page" class="rounded-md bg-sky-950/70 px-3 py-2 text-sm font-medium text-white" {% else %} class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" {% endif %} >Home</a>
+
+            {% endif %}
+                         {% if user.is_authenticated %}
+
+              {% url 'dashboard:rankin' as ranking_url %}
+            <a href="{{ ranking_url }}" {% if ranking_url == request.path %}aria-current="page" class="rounded-md bg-sky-950/70 px-3 py-2 text-sm font-medium text-white" {% else %} class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" {% endif %}>Ranking</a>
+            {% else %}
+            {% url 'user:login' as login_url %}
+            <a href="{{ login_url }}" {% if login_url == request.path %}aria-current="page" class="rounded-md bg-sky-950/70 px-3 py-2 text-sm font-medium text-white" {% else %} class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" {% endif %} >Login</a>
+
+            {% endif %}
+{% url 'user:contact' as contact_url %}
+                       <a href="{{ contact_url }}" {% if contact_url == request.path %}aria-current="page" class="rounded-md bg-sky-950/70 px-3 py-2 text-sm font-medium text-white" {% else %} class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" {% endif %} >Contact</a>
+ </div>
         </div>
       </div>
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -63,8 +77,8 @@
 
           <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
             {% if user.is_authenticated %}
-                       <a href="#" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Welcome {{ user.first_name }}</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Settings</a>
+                       <a href="user:contact" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Give Feedback : {{ user.first_name }}</a>
+
             <a href="{% url "user:logout" %}" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Sign out</a>
                 
                 {% else %}
@@ -81,14 +95,69 @@
   </div>
 
   <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
-    <div class="space-y-1 px-2 pt-2 pb-3">
-      <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-      <a href="#" aria-current="page" class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dashboard</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
-    </div>
-  </el-disclosure>
+  <div class="space-y-1 px-2 pt-2 pb-3">
+
+    {% if user.is_authenticated %}
+      {% url 'dashboard:dashboard' as dashboard_url %}
+      <a href="{{ dashboard_url }}"
+         class="block rounded-md px-3 py-2 text-base font-medium
+         {% if request.path == dashboard_url %}
+           bg-sky-950/70 text-white
+         {% else %}
+           text-gray-300 hover:bg-white/5 hover:text-white
+         {% endif %}">
+        Dashboard
+      </a>
+    {% else %}
+      <a href="/"
+         class="block rounded-md px-3 py-2 text-base font-medium
+         {% if request.path == '/' %}
+           bg-sky-950/70 text-white
+         {% else %}
+           text-gray-300 hover:bg-white/5 hover:text-white
+         {% endif %}">
+        Home
+      </a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      {% url 'dashboard:rankin' as ranking_url %}
+      <a href="{{ ranking_url }}"
+         class="block rounded-md px-3 py-2 text-base font-medium
+         {% if request.path == ranking_url %}
+           bg-sky-950/70 text-white
+         {% else %}
+           text-gray-300 hover:bg-white/5 hover:text-white
+         {% endif %}">
+        Ranking
+      </a>
+    {% else %}
+      {% url 'user:login' as login_url %}
+      <a href="{{ login_url }}"
+         class="block rounded-md px-3 py-2 text-base font-medium
+         {% if request.path == login_url %}
+           bg-sky-950/70 text-white
+         {% else %}
+           text-gray-300 hover:bg-white/5 hover:text-white
+         {% endif %}">
+        Login
+      </a>
+    {% endif %}
+
+    {% url 'user:contact' as contact_url %}
+    <a href="{{ contact_url }}"
+       class="block rounded-md px-3 py-2 text-base font-medium
+       {% if request.path == contact_url %}
+         bg-sky-950/70 text-white
+       {% else %}
+         text-gray-300 hover:bg-white/5 hover:text-white
+       {% endif %}">
+      Contact
+    </a>
+
+  </div>
+</el-disclosure>
+
 </nav>
 
 
@@ -176,13 +245,13 @@ document.addEventListener("DOMContentLoaded", () => {
 <footer class="w-full bg-gray-800/20 backdrop-blur-md">
   <div class="container mx-auto text-center p-5">
 
-   <div class="mb-4">
-     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
-     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
-     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Twitter</a>
-     <a href="#" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Instagram</a>
+   <div class="w-auto sm:text-1px md:text-2px lg:text-1xl xl:text-2xl">
+     <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
+     <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Instagram</a>
+     <a href="{% url "user:contact" %}" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Contact Us</a>
+     <a href="https://linkedin.com/in/aman-prajapati-789434395" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">LinkedIn</a>
    </div>
-   <p class="text-white">© 2025 ToDo. All rights reserved.</p>
+   <p class="text-white">© 2025 ToDo.  By: Aman Prajapati</p>
  </div>
 </footer>
 

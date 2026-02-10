@@ -2,16 +2,29 @@
 {% extends "todo/basic.html" %}
 {% block body %}
 <!-- Create Task Button -->
+<div class="mb-10 text-center">
+<h1 class="font-extrabold text-white tracking-tight text-center sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+  <span class="hidden sm:inline">
+    Welcome back, <span class="text-sky-400">{{ user.first_name }}</span> 👋
+  </span>
+  <span class="inline sm:hidden">
+    Welcome back, <span class="text-sky-400">{{ user.first_name }}</span>
+  </span>
+</h1>
+
+</div>
+
+
 <div class="flex justify-end mb-6">
   <button
     id="openTaskModal"
-    class="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400 transition"
+    class="rounded-lg bg-indigo-500 px-4 text-sm font-semibold text-white hover:bg-indigo-400 transition"
   >
     ➕ Create Task
   </button>
 </div>
 
-<div class="mx-auto mt-20 max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="mx-auto mt-10 max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
 
   <!-- ✅ COMPLETED TASKS -->
   <div class="rounded-3xl bg-green-900/20 ring-1 ring-green-400/20 p-6">
@@ -30,7 +43,7 @@
 
           <!-- Task name -->
           <span class="flex-1 text-white">
-            {{task.title }}
+            {{task.title }} ({{task.task_type}})
           </span>
 
           <!-- Completed icon -->
@@ -62,7 +75,7 @@
 
           <!-- Task name -->
           <span class="flex-1 text-white">
-            {{ task.title }}
+            {{task.title }} ({{task.task_type}})
           </span>
 
           <!-- Mark complete button -->
