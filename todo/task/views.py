@@ -1,9 +1,11 @@
-from django.shortcuts import render ,redirect
+from django.shortcuts import get_object_or_404, render ,redirect
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Task, TaskComp
+from .chek import exist_chek
+from datetime import datetime
 # Create your views here.
 
 @login_required(login_url="urls:login")
@@ -38,5 +40,45 @@ def creat_task(request):
 
 
 def complete_task(request,task_id):
+    task=get_object_or_404(Task,id=task_id)
+    flag=exist_chek(task_id,task.task_type)
+    print(f"the flag is {flag}")
+    print(task.task_type)
+    if flag is False:
+        TaskComp.objects.create(task=task,complete_on=datetime.now())
+    
+    else:
+        messages.error(request,"This task is already completed")
+        return redirect("dashboard:dashboard")
+    task1=TaskComp.objects.all()
+    print(task1)
+    
     messages.success(request, f"inside the complete_task")
     return redirect("dashboard:dashboard")
+
+
+
+@login_required(login_url="user:login")
+def pause_task(request,task_id):
+    try:
+        task = get_object_or_404(Task, id=task_id)
+        task.is_active=False
+        task.save()
+        messages.success(request,f"Task {task.title} paused successfully")
+    except Task.DoesNotExist:
+        messages.error(request,"Task does not exist")
+        return redirect("dashboard:dashboard")
+    
+
+
+@login_required(login_url="user:login")
+def delete_task(request,task_id):
+    try:
+        task = get_object_or_404(Task, id=task_id)
+        task.is_deleted=True
+        task.save()
+        messages.success(request,f"Task {task.title} deleted successfully")
+    except Task.DoesNotExist:
+        messages.error(request,"Task does not exist")
+        return redirect("dashboard:dashboard")
+

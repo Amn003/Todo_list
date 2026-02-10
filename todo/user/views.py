@@ -11,6 +11,9 @@ def loginc(request):
     return redirect("user:login")
 
 def login_user(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard:dashboard")
+    
     if request.method=="POST":
         email=request.POST.get("email")
         password=request.POST.get("password")
@@ -23,12 +26,15 @@ def login_user(request):
             request,
             username=user.username,
             password=password,
-        )    
+        )   
+
         if user is not None:
             login(request,user)
-            return redirect('dashboard:dashboard')
+            print(user)
 
-        return render(request, 'user/login.html', {'error': 'Invalid credentials'})
+            return redirect('dashboard:dashboard')
+        messages.error(request,"Invalid email or password")
+        return render(request, 'user/login.html')
 
 
     return render(request,"user/login.html")
@@ -60,7 +66,9 @@ def register(request):
             user=User.objects.create_user(
                 username = username,
                 email=email,
-                password=password
+                password=password,
+                first_name=first_name,
+                last_name=last_name, 
                 )
             profile.objects.create(
                 user=user,
