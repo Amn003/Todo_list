@@ -243,17 +243,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <footer class="w-full bg-gray-800/20 backdrop-blur-md">
-  <div class="container mx-auto text-center p-5">
+  <div class="max-w-7xl mx-auto text-center px-4 py-6">
 
-   <div class="w-auto sm:text-1px md:text-2px lg:text-1xl xl:text-2xl">
-     <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Facebook</a>
-     <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Instagram</a>
-     <a href="{% url "user:contact" %}" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">Contact Us</a>
-     <a href="https://linkedin.com/in/aman-prajapati-789434395" class="text-gray-400 hover:text-white mx-2  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-sky-500/25  rounded-lg m-2 p-2">LinkedIn</a>
-   </div>
-   <p class="text-white">© 2025 ToDo.  By: Aman Prajapati</p>
- </div>
+    <!-- Links -->
+    <div class="
+      flex flex-wrap justify-center gap-2
+      text-xs sm:text-sm md:text-base lg:text-lg
+    ">
+      <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly"
+         class="text-gray-400 hover:text-white transition duration-300 hover:scale-110 hover:bg-sky-500/25 rounded-lg px-3 py-1">
+        Facebook
+      </a>
+
+      <a href="https://www.instagram.com/it_is_amn?igsh=a2llbHZ6bDVjOHly"
+         class="text-gray-400 hover:text-white transition duration-300 hover:scale-110 hover:bg-sky-500/25 rounded-lg px-3 py-1">
+        Instagram
+      </a>
+
+      <a href="{% url 'user:contact' %}"
+         class="text-gray-400 hover:text-white transition duration-300 hover:scale-110 hover:bg-sky-500/25 rounded-lg px-3 py-1">
+        Contact Us
+      </a>
+
+      <a href="https://linkedin.com/in/aman-prajapati-789434395"
+         class="text-gray-400 hover:text-white transition duration-300 hover:scale-110 hover:bg-sky-500/25 rounded-lg px-3 py-1">
+        LinkedIn
+      </a>
+    </div>
+
+    <!-- Copyright -->
+    <p class="mt-4 text-[10px] sm:text-xs md:text-sm text-gray-300">
+      © 2025 ToDo. By: Aman Prajapati
+    </p>
+
+  </div>
 </footer>
+
 
 </div>
   </body>
