@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -14,7 +15,7 @@ class Task(models.Model):
     description=models.TextField(blank=True,null=True)
     task_type=models.CharField(max_length=100,choices=TASK_TYPE)
 
-    created_at=models.DateTimeField( auto_now=False, auto_now_add=False)
+    created_at=models.DateTimeField( auto_now=False, auto_now_add=False,default=datetime.now)
     is_active=models.BooleanField(default=True)
     is_deleted=models.BooleanField(default=False)
 

@@ -1,3 +1,6 @@
+from datetime import datetime
+from django.utils import timezone
+
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -12,12 +15,16 @@ def dashboard(request):
     pending_task=[]
 
     for comp_t in task:
-        if exist_chek(comp_t.id,comp_t.task_type):
+        flag =exist_chek(comp_t.id,comp_t.task_type)
+        task = Task.objects.get(id=comp_t.id)
+
+        if flag and task.created_at <= timezone.now():
+
             if comp_t.task_type == "Once" :
                 continue
             else:
                 complete_task.append(comp_t)
-        else:
+        elif flag is False and task.created_at <= timezone.now():
             pending_task.append(comp_t)
     totel_complete_task=complete_task.__len__()
     totel_task=complete_task.__len__()+pending_task.__len__()
