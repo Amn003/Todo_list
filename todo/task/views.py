@@ -81,4 +81,6 @@ def delete_task(request,task_id):
     except Task.DoesNotExist:
         messages.error(request,"Task does not exist")
         return redirect("dashboard:dashboard")
+    
+    return redirect("dashboard:dashboard")
 

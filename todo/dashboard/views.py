@@ -13,12 +13,16 @@ def dashboard(request):
 
     for comp_t in task:
         if exist_chek(comp_t.id,comp_t.task_type):
-            complete_task.append(comp_t)
+            if comp_t.task_type == "Once" :
+                continue
+            else:
+                complete_task.append(comp_t)
         else:
             pending_task.append(comp_t)
-
-    return render(request, 'dashboard/dashboard.html',{"complete_task":complete_task,"pending_task":pending_task})
+    totel_complete_task=complete_task.__len__()
+    totel_task=complete_task.__len__()+pending_task.__len__()
+    return render(request, 'dashboard/dashboard.html',{"complete_task":complete_task,"pending_task":pending_task,"totel_complete_task":totel_complete_task,"totel_task":totel_task})
 
 
 def rankin(request):
-    return render(request,"dashboard/ranking.html") 
+    return render(request,"dashboard/ranking.html")

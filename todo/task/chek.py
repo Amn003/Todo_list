@@ -26,12 +26,14 @@ def is_task_completed(task_id, task_type):
         .order_by('-complete_on')
         .first()
     )
+    print("==",task_comp, f"{task_comp!r}")
 
     # If task was never completed
     if task_comp is None:
         return False
 
     completed_date = task_comp.complete_on
+    print("==",completed_date, f"{completed_date!r}")
 
     # ONCE → completed even once = done forever
     if task_type == "Once":
@@ -49,17 +51,14 @@ def is_task_completed(task_id, task_type):
 
     # MONTHLY → completed in current month
     if task_type == "Monthly":
-        return (
-            completed_date.year == today.year and
-            completed_date.month == today.month
-        )
+        last_date_of_task= completed_date + relativedelta(months=1,day=task.created_at.day)
+
+        return completed_date <= today < last_date_of_task
+    # end = completed_date + relativedelta(months=1)
+    # return completed_date <= today < end
 
     # YEARLY → completed on same day & month of current year
     if task_type == "Yearly":
-        return (
-            completed_date.day == today.day and
-            completed_date.month == today.month and
-            completed_date.year == today.year
-        )
+        return completed_date<=today<= completed_date + relativedelta(years=1,day=task.created_at.day,month=task.created_at.month)
 
     return False

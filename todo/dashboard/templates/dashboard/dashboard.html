@@ -2,8 +2,8 @@
 {% extends "todo/basic.html" %}
 {% block body %}
 <!-- Create Task Button -->
-<div class="mb-10 text-center">
-<h1 class="font-extrabold text-white tracking-tight text-center sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+<div class="mb-5 text-center">
+<h1 class="font-extrabold text-white tracking-tight text-center  " style="text-size-adjust: 2rem; size: 5rem;">
   <span class="hidden sm:inline">
     Welcome back, <span class="text-sky-400">{{ user.first_name }}</span> 👋
   </span>
@@ -13,7 +13,10 @@
 </h1>
 
 </div>
-
+<div id="text_show" class="p-5 w-full bg-red-500/20 text-white rounded-lg position-sticky top-0 left-0 j-cente ims-center p-4 text-center font-extrabold text-white tracking-tight text-center" style="display: inline-block;">
+  <span id="text_show_1">Hey Only Some task remains :</span>
+ <span id="totel_comp">{{ totel_complete_task }}</span> <span>/</span> <span id="totel_task">{{ totel_task }}</span>
+</div>
 
 <div class="flex justify-end mb-6">
   <button
@@ -227,6 +230,20 @@
   const modal = document.getElementById("taskModal");
   const openBtn = document.getElementById("openTaskModal");
   const closeBtn = document.getElementById("closeTaskModal");
+
+  const text = document.getElementById("text_show");
+  const totel_comp = document.getElementById("totel_comp");
+  const totel_task=document.getElementById("totel_task");
+  if  (totel_comp.innerText==totel_task.innerText){
+    text.classList.remove("bg-red-500/20");
+    text.classList.add("bg-green-500/20");
+    text.innerText="Great job! All task has completed ! ";
+  }
+  else{
+    text.classList.remove("bg-red-500/10");
+    text.classList.add("bg-green-500/10");
+  }
+
 
   openBtn.addEventListener("click", () => {
     modal.classList.remove("hidden");
