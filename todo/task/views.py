@@ -43,20 +43,24 @@ def creat_task(request):
 
 
 def complete_task(request,task_id):
-    task=get_object_or_404(Task,id=task_id)
-    flag=exist_chek(task_id,task.task_type)
-    print(f"the flag is {flag}")
-    print(task.task_type)
-    if flag is False:
-        TaskComp.objects.create(task=task,complete_on=timezone.now())
-    
-    else:
-        messages.error(request,"This task is already completed")
-        task1=TaskComp.objects.get(task=task)
-        print(f" the task is {task1}")
+    try: 
+        print(f"the task id is {task_id}")
+        task=Task.objects.get(id=task_id)
+        flag=exist_chek(task_id,task.task_type)
+        print(f"the flag is {flag}")
+        print(task.task_type)
+        if flag is False:
+            TaskComp.objects.create(task=task,complete_on=datetime.now())
+        
+        else:
+            messages.error(request,"This task is already completed")
+            task1=TaskComp.objects.get(task=task)
+            print(f" the task is {task1}")
+            return redirect("dashboard:dashboard")
+    except :
+        messages.error(request,"Task does not exist")
         return redirect("dashboard:dashboard")
-    
-    messages.success(request, f"inside the complete_task")
+
     return redirect("dashboard:dashboard")
 
 
@@ -68,10 +72,11 @@ def pause_task(request,task_id):
         task.is_active=False
         task.save()
         messages.success(request,f"Task {task.title} paused successfully")
-    except Task.DoesNotExist:
+    except :
         messages.error(request,"Task does not exist")
         return redirect("dashboard:dashboard")
     
+    return redirect("dashboard:dashboard") 
 
 
 @login_required(login_url="user:login")

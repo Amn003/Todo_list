@@ -26,7 +26,7 @@ def is_task_completed(task_id, task_type):
         .order_by('-complete_on')
         .first()
     )
-    print("==",task_comp, f"{task_comp!r}")
+
 
     # If task was never completed
     if task_comp is None:

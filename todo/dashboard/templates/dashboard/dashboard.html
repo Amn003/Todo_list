@@ -3,7 +3,7 @@
 {% block body %}
 <!-- Create Task Button -->
 <div class="mb-5 text-center">
-<h1 class="font-extrabold text-white tracking-tight text-center  " style="text-size-adjust: 2rem; size: 5rem;">
+<h1 class="font-extrabold text-white tracking-tight text-center  text-sm md:text-base lg:text-xl" style="text-size-adjust: 5rem; size: 10rem;">
   <span class="hidden sm:inline">
     Welcome back, <span class="text-sky-400">{{ user.first_name }}</span> 👋
   </span>
@@ -13,7 +13,7 @@
 </h1>
 
 </div>
-<div id="text_show" class="p-5 w-full bg-red-500/20 text-white rounded-lg position-sticky top-0 left-0 j-cente ims-center p-4 text-center font-extrabold text-white tracking-tight text-center" style="display: inline-block;">
+<div id="text_show" class="p-5 w-full bg-black/100 text-white rounded-lg position-sticky top-0 left-0 j-cente ims-center p-4 text-center font-extrabold text-white tracking-tight text-center" style="display: inline-block;">
   <span id="text_show_1">Hey Only Some task remains :</span>
  <span id="totel_comp">{{ totel_complete_task }}</span> <span>/</span> <span id="totel_task">{{ totel_task }}</span>
 </div>
@@ -30,7 +30,7 @@
 <div class="mx-auto mt-10 max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
 
   <!-- ✅ COMPLETED TASKS -->
-  <div class="rounded-3xl bg-green-900/20 ring-1 ring-green-400/20 p-6">
+  <div class="rounded-3xl bg-black/50 ring-1 ring-green-400/20 p-6">
     <h2 class="text-xl font-semibold text-green-400 mb-4 flex items-center gap-2">
       ✅ Completed Tasks
     </h2>
@@ -38,7 +38,7 @@
     <!-- Scrollable area -->
     <div class="max-h-80 overflow-y-auto space-y-3 pr-2">
       {% for task in complete_task %}
-        <div class="flex items-center gap-3 bg-green-800/20 p-3 rounded-lg">
+        <div class="flex items-center gap-3 bg-black/100 p-3 rounded-lg">
           <!-- Number -->
           <span class="text-green-400 font-semibold">
             {{ forloop.counter }}.
@@ -62,7 +62,7 @@
   </div>
 
   <!-- ⏳ PENDING TASKS -->
-  <div class="rounded-3xl bg-yellow-900/20 ring-1 ring-yellow-400/20 p-6">
+  <div class="rounded-3xl bg-black/50 ring-1 ring-yellow-400/20 p-6">
     <h2 class="text-xl font-semibold text-yellow-400 mb-4 flex items-center gap-2">
       ⏳ Pending Tasks
     </h2>
@@ -70,7 +70,7 @@
     <!-- Scrollable area -->
     <div class="max-h-80 overflow-y-auto space-y-3 pr-2">
       {% for task in pending_task %}
-        <div class="flex items-center gap-3 bg-yellow-800/20 p-3 rounded-lg">
+        <div class="flex items-center gap-3 bg-black/100 p-3 rounded-lg">
           <!-- Number -->
           <span class="text-yellow-400 font-semibold">
             {{ forloop.counter }}.
